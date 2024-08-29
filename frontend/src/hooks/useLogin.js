@@ -6,17 +6,20 @@ const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
 
-  const login = async (username, password, typeOfUser) => {
+  const login = async ({username, password, typeOfUser}) => {
     const success = handleInputErrors({ username, password });
     if (!success) return;
 
     setLoading(true);
-    {
-      typeOfUser == "doctor"
-        ? await loginDoctor({ username, password }, setAuthUser)
-        : await loginPatient({ username, password }, setAuthUser);
+    try {
+      if (typeOfUser === "doctor") {
+        await loginDoctor({ username, password }, setAuthUser);
+      } else {
+        await loginPatient({ username, password }, setAuthUser);
+      }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
   return { loading, login };
 };
@@ -27,13 +30,12 @@ function handleInputErrors({ username, password }) {
     toast.error("Please fill in all the fields");
     return false;
   }
-
   return true;
 }
 
 async function loginDoctor({ username, password }, setAuthUser) {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/doctor/login", {
+    const res = await fetch("http://localhost:5000/api/auth/doctor/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),
@@ -53,7 +55,7 @@ async function loginDoctor({ username, password }, setAuthUser) {
 }
 async function loginPatient({ username, password }, setAuthUser) {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/patient/login", {
+    const res = await fetch("http://localhost:5000/api/auth/patient/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password }),

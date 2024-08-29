@@ -15,17 +15,11 @@ const patientSchema = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
-      enum: ["male", "female", "other"],
+      enum: ["male", "female"],
     },
     profilePic: {
       type: String,
       default: "",
-    },
-    uId: {
-      type: Number,
-      required: true,
-      unique: true,
-      default: null,
     },
     username: {
       type: String,
@@ -37,7 +31,7 @@ const patientSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // Ensure email uniqueness
+      unique: true,
     },
     otp: {
       type: Number,
@@ -47,7 +41,6 @@ const patientSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    //createdAt, updatedAt => Member since <createdAt>
   },
   { timestamps: true }
 );

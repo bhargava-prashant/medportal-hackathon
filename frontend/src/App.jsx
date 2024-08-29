@@ -10,20 +10,12 @@ function App() {
   const {authUser} = useAuthContext();
   return <>
     <div>
-        {/* <Routes>
-          <Route path="/" element={authUser ? <Home /> : <Navigate to={"/login"} /> } />
-          <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login /> } />
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/login" element={authUser ? <Navigate to="/dashboard" /> : <Login /> } />
           <Route path="/signup" element={authUser ? <Navigate to="/" /> : <Signup /> } />
         </Routes>
-      <Toaster /> */}
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/signup' element={<Signup/>}/>
-        <Route />
-        <Route/>
-      </Routes>
-      <Toaster/>
+      <Toaster />
     </div>
   </>
 }

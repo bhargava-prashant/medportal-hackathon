@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useLogin from "../../hooks/useLogin.js";
-import '../media.css';
+import "../media.css";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -11,13 +11,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(username, password, typeOfUser);
+    await login({username, password, typeOfUser});
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 image-login">
       <div className="card p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-center mb-6">Choose Account Type</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Choose Account Type
+        </h1>
 
         <form onSubmit={handleSubmit}>
           <div className="flex justify-center gap-5 mb-8">
@@ -79,7 +81,10 @@ const Login = () => {
             />
           </div>
 
-          <Link to="/signup" className="text-blue-500 hover:underline block mb-6 text-center">
+          <Link
+            to="/signup"
+            className="text-blue-500 hover:underline block mb-6 text-center"
+          >
             Don&apos;t have an account?
           </Link>
 

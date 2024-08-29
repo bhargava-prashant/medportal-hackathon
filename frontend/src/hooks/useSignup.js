@@ -26,7 +26,7 @@ const useSignup = () => {
     if (!success) return;
     setLoading(true);
     {
-      typeOfUser === "doctor"
+      typeOfUser == "doctor"
         ? await signupDoctor(
             { fullName, username, password, confirmPassword, gender, email },
             setAuthUser
@@ -45,12 +45,11 @@ export default useSignup;
 
 async function signupDoctor(userData, setAuthUser) {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/doctor/signup", {
+    const res = await fetch("http://localhost:5000/api/auth/doctor/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
     });
-
     const data = await res.json();
     if (data.error) {
       throw new Error(data.error);
@@ -65,7 +64,7 @@ async function signupDoctor(userData, setAuthUser) {
 }
 async function signupPatient(userData, setAuthUser) {
   try {
-    const res = await fetch("http://localhost:3000/api/auth/patient/signup", {
+    const res = await fetch("http://localhost:5000/api/auth/patient/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),

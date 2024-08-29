@@ -15,7 +15,7 @@ const doctorSchema = new mongoose.Schema(
     gender: {
       type: String,
       required: true,
-      enum: ["male", "female", "other"],
+      enum: ["male", "female"],
     },
     profilePic: {
       type: String,
@@ -31,11 +31,12 @@ const doctorSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // Ensure email uniqueness
+      unique: true,
     },
     experience: {
         type: Number,
         required: true,
+        default: 0,
     }
     //createdAt, updatedAt => Member since <createdAt>
   },

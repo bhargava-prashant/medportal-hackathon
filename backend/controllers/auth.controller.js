@@ -5,8 +5,8 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 
 export const loginDoctor = async (req, res) => {
   try {
-    const { username, password} = req.body;
-    const doctor = await Doctor.findOne({ username });
+    const { username, password } = req.body;
+    const doctor = await Doctor.findOne({ username }).select("+password");
     const isPasswordCorrect = await bcrypt.compare(
       password,
       doctor?.password || ""
@@ -29,7 +29,7 @@ export const loginDoctor = async (req, res) => {
 };
 export const loginPatient = async (req, res) => {
   try {
-    const { username, password} = req.body;
+    const { username, password } = req.body;
     const patient = await Patient.findOne({ username });
     const isPasswordCorrect = await bcrypt.compare(
       password,
@@ -64,7 +64,8 @@ export const logout = (req, res) => {
 
 export const signupDoctor = async (req, res) => {
   try {
-    const { fullName, username, password, confirmPassword, gender, email } = req.body;
+    const { fullName, username, password, confirmPassword, gender, email } =
+      req.body;
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords don't match" });
     }
@@ -73,11 +74,10 @@ export const signupDoctor = async (req, res) => {
     if (doctor) {
       return res.status(400).json({ error: "Username already exists" });
     }
- 
+
     // HASH PASSWORD HERE
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
@@ -87,7 +87,7 @@ export const signupDoctor = async (req, res) => {
       password: hashedPassword,
       gender,
       profilePic: gender === "male" ? boyProfilePic : girlProfilePic,
-      email
+      email,
     });
 
     if (newDoctor) {
@@ -102,6 +102,7 @@ export const signupDoctor = async (req, res) => {
         username: newDoctor.username,
         profilePic: newDoctor.profilePic,
         email: newDoctor.email,
+        gender,
       });
     } else {
       res.status(400).json({ error: "Invalid user data" });
@@ -113,7 +114,8 @@ export const signupDoctor = async (req, res) => {
 };
 export const signupPatient = async (req, res) => {
   try {
-    const { fullName, username, password, confirmPassword, gender, email } = req.body;
+    const { fullName, username, password, confirmPassword, gender, email } =
+      req.body;
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords don't match" });
     }
@@ -129,6 +131,8 @@ export const signupPatient = async (req, res) => {
 
     const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
     const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+
+    const uId = 2242;
 
     const newPatient = new Patient({
       fullName,
@@ -151,7 +155,7 @@ export const signupPatient = async (req, res) => {
         username: newPatient.username,
         profilePic: newPatient.profilePic,
         gender,
-        email
+        email,
       });
     } else {
       res.status(400).json({ error: "Invalid patient data" });
